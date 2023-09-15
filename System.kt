@@ -17,7 +17,6 @@ class System : JavaPlugin(), Listener {
         server.pluginManager.registerEvents(Fort(), this)
         server.pluginManager.registerEvents(Enhance(), this)
         server.pluginManager.registerEvents(Menu(), this)
-        server.pluginManager.registerEvents(Bulesky0504(), this)
 
         Bukkit.getConsoleSender().sendMessage("시스템이 활성화되었습니다.")
 

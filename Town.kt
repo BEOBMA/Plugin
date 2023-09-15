@@ -19,6 +19,7 @@ import org.bukkit.event.weather.LightningStrikeEvent
 
 class Town : Listener {
 
+//지정된 지역에서 피해를 입히는 것을 차단합니다.
     @EventHandler
     fun onEntityDamage(event: EntityDamageByEntityEvent) {
         if (event.damager is Player && event.entity is Player) {
@@ -34,6 +35,7 @@ class Town : Listener {
     }
 
 
+//지정된 구역 내에서 블럭이 파괴될 때, 그 행동을 취소합니다.
     @EventHandler
     fun onBlockBreak(event: BlockBreakEvent) {
         val player = event.player
@@ -48,6 +50,7 @@ class Town : Listener {
         }
     }
 
+//지정된 지역 내에서 블럭이 설치될 때, 그 행동을 취소시킵니다.
     @EventHandler
     fun onBlockPlace(event: BlockPlaceEvent) {
         val player = event.player
@@ -62,6 +65,7 @@ class Town : Listener {
         }
     }
 
+//지정된 구역 내에서 다른 지정된 블럭에 상로작용 하는 것을 막습니다.
     @EventHandler
     fun onPlayerInteract(event: PlayerInteractEvent) {
         val player = event.player
@@ -93,6 +97,7 @@ class Town : Listener {
                 }
             }
 
+//또한, item 리스트에 포함된 아이템의 사용도 막습니다.
             if (isInZone && !player.isOp &&
                 restrictedItems.any { it.material == item }
             ) {
@@ -103,6 +108,7 @@ class Town : Listener {
         }
     }
 
+//플레이어가 섭취하는 음식중, 후렴과가 포함되었다면 그 행동을 취소시킵니다.
     @EventHandler
     fun onPlayerItemConsume(event: PlayerItemConsumeEvent) {
         val player = event.player
@@ -116,6 +122,7 @@ class Town : Listener {
         }
     }
 
+//구역 내에서 모든 종류의 폭발을 취소시킵니다.
     @EventHandler
     fun onEntityExplode(event: EntityExplodeEvent) {
         if (event.entity.location.isInNoPVPZone()) {
@@ -123,6 +130,7 @@ class Town : Listener {
         }
     }
 
+//구역 내에 번개가 칠 때, 취소시킵니다.
     @EventHandler
     fun onLightningStrike(event: LightningStrikeEvent) {
         val strikeLocation = event.lightning.location
@@ -133,10 +141,11 @@ class Town : Listener {
 
 }
 
+// "지정된 지역"을 정의합니다.
 fun Location.isInNoPVPZone(): Boolean {
     val world = this.world
 
-    // Check if the world is the overworld
+    // 월드를 노말 월드로 설정합니다.
     if (world != null && world.environment == World.Environment.NORMAL) {
         return x >= -61 && x <= 61 &&
                 y >= -200 && y <= 500 &&
@@ -145,6 +154,7 @@ fun Location.isInNoPVPZone(): Boolean {
     return false
 }
 
+// "지정된 아이템"을 정의합니다.
 enum class RestrictedItem(val material: Material) {
     BUCKET(Material.BUCKET),
     BONE_MEAL(Material.BONE_MEAL),
